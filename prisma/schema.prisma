@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model quran_ayat {
+  index      Int     @unique(map: "index")
+  sura       Int     @default(0)
+  SurahName  String  @db.VarChar(255)
+  aya        Int     @default(0)
+  text       String  @db.Text
+  simple     String? @db.Text
+  line       Int
+  juz        Int?    @db.SmallInt
+  hezb       Int?    @db.SmallInt
+  page       Int?
+  rub        Int?
+  verse_key  String? @db.VarChar(50)
+  EndOfSurah Boolean @default(false)
+}
+
+model quarter {
+  hezb              Int
+  page              Int
+  juz               String  @db.VarChar(255)
+  rub               Int     @id @default(autoincrement())
+  text              String  @db.LongText
+  startingjuzzIndex Boolean @default(false)
+  startingHizbIndex Boolean @default(false)
+  quarterAyaNum     Int
+  surah             Int
+  surahTitle        String  @db.VarChar(255)
+}
+
+model quarter_1 {
+  hezb              Int
+  page              Int
+  juz               Int
+  rub               Int     @id @default(autoincrement())
+  text              String  @db.LongText
+  startingjuzzIndex Boolean @default(false)
+}
+
+model quran_word {
+  id          Int     @unique(map: "id")
+  index       Int
+  aya         String  @db.VarChar(100)
+  sura        Int
+  SurahName   String  @db.VarChar(255)
+  position    String  @db.VarChar(100)
+  verse_key   String  @db.VarChar(100)
+  EndOfSurah  Boolean @default(false)
+  text        String? @db.VarChar(100)
+  simple      String? @db.VarChar(100)
+  juz         String  @db.VarChar(100)
+  hizb        String  @db.VarChar(100)
+  rub         String  @db.VarChar(100)
+  page        Int
+  class_name  String  @db.VarChar(100)
+  line        Int
+  code        String  @db.VarChar(100)
+  code_v3     String  @db.VarChar(100)
+  char_type   String  @db.VarChar(100)
+  audio       String? @db.VarChar(100)
+  translation String? @db.VarChar(100)
+  nim         String  @db.VarChar(100)
+  audio_key   String? @db.VarChar(100)
+}
+
+model surah {
+  number         Int    @id
+  name           String @db.VarChar(100)
+  englishName    String @db.VarChar(100)
+  numberOfAyahs  Int
+  revelationType String @db.VarChar(100)
+  first_page_num Int?
+}
+
+model surah_fixed {
+  index      Int    @id @default(autoincrement())
+  aya        Int
+  text       String @db.VarChar(255)
+  sura       Int
+  SurahName  String @db.VarChar(255)
+  EndOfSurah Int
+  page       Int
+  line       Int
+}
+
+model surah_back {
+  number         Int    @id
+  name           String @db.VarChar(100)
+  englishName    String @db.VarChar(100)
+  numberOfAyahs  Int
+  revelationType String @db.VarChar(100)
+  first_page_num Int
+}
